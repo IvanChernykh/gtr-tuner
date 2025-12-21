@@ -9,6 +9,7 @@ export const tunings: Tuning[] = [
   { name: "Open D", notes: ["D2", "A2", "D3", "F#3", "A3", "D4"] },
   { name: "Open G", notes: ["D2", "G2", "D3", "G3", "B3", "D4"] },
   { name: "DADGAD", notes: ["D2", "A2", "D3", "G3", "A3", "D4"] },
+  { name: "Bass", notes: ["E1", "A1", "D2", "G2"] },
 ];
 
 export const noteFrequencies: { [key: string]: number } = {

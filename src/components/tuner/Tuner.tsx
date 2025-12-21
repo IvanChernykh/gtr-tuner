@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { PitchMeter } from "./PitchMeter";
 import { GuitarSVG } from "../ui/icons/guitar";
@@ -10,17 +10,25 @@ interface TunerProps {
 }
 
 export const Tuner: React.FC<TunerProps> = ({ selectedTuning }) => {
-  const [selectedNote, setSelectedNote] = useState("");
+  const [selectedNote, setSelectedNote] = useState("E2");
+
+  useEffect(() => {
+    setSelectedNote(selectedTuning.notes[0]);
+  }, [selectedTuning]);
 
   return (
-    <div className="w-full">
-      <PitchMeter selectedTuning={selectedTuning} selectedNote={selectedNote} />
-      <div className="flex flex-col justify-start gap-2">
+    <>
+      <PitchMeter selectedNote={selectedNote} />
+      <div className="absolute bottom-58 left-1/2 -translate-x-1/2 z-20 flex flex-col justify-start gap-8.5 w-full lg:max-w-200 max-w-120 p-4">
         {selectedTuning.notes
           .map((note) => (
             <button
               key={note}
-              className="btn btn-circle"
+              className={`btn btn-circle ${
+                selectedNote === note
+                  ? "border-base bg-base-content text-base-100"
+                  : "border-base-content"
+              }`}
               onClick={() => {
                 setSelectedNote(note);
               }}
@@ -29,9 +37,8 @@ export const Tuner: React.FC<TunerProps> = ({ selectedTuning }) => {
             </button>
           ))
           .reverse()}
-        <div>selected: {selectedNote}</div>
       </div>
       <GuitarSVG />
-    </div>
+    </>
   );
 };
