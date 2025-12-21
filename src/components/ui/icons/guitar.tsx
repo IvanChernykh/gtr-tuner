@@ -3,7 +3,7 @@ import React from "react";
 export const GuitarSVG: React.FC = () => {
   return (
     <>
-      <div className="absolute bg-base-content left-1/2 -translate-x-1/2 bottom-0 w-64 md:w-90 h-[calc(100vh-64px)]"></div>
+      <div className="absolute bg-base-content left-1/2 -translate-x-1/2 bottom-0 w-90 h-[calc(100vh-64px)]"></div>
       <svg
         className="absolute left-1/2 -translate-x-1/2 bottom-0 h-[calc(100vh-64px)]"
         version="1.0"

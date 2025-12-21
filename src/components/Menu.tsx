@@ -1,13 +1,13 @@
 import React from "react";
 
 import { Dropdown } from "./ui/Dropdown";
-import { tunings } from "../utils/constants";
+import { tunings, type Tuning } from "../utils/constants";
 import { DarkModeController } from "./ui/DarkModeController";
 import { CaretDown } from "./ui/icons/Arrows";
 
 interface MenuProps {
-  selectedTuning: string;
-  setSelectedTuning: React.Dispatch<React.SetStateAction<string>>;
+  selectedTuning: Tuning;
+  setSelectedTuning: React.Dispatch<React.SetStateAction<Tuning>>;
 }
 
 export const Menu: React.FC<MenuProps> = ({
@@ -15,11 +15,11 @@ export const Menu: React.FC<MenuProps> = ({
   setSelectedTuning,
 }) => {
   const handleTuningChange = (id: string) => {
-    setSelectedTuning(id);
+    setSelectedTuning(tunings.filter((item) => item.name === id)[0]);
   };
 
   return (
-    <div className="w-full h-16 flex items-center justify-between py-2 px-4">
+    <div className="w-full h-16 flex items-center justify-between py-2 px-4 border-b">
       <div className="flex gap-4">
         {/* <Dropdown
           className="w-25"
@@ -34,7 +34,7 @@ export const Menu: React.FC<MenuProps> = ({
           items={tunings.map(({ name }) => ({ id: name, component: name }))}
           onItemClick={handleTuningChange}
         >
-          {selectedTuning}
+          {selectedTuning.name}
           <CaretDown />
         </Dropdown>
       </div>

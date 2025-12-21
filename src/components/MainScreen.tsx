@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 
 import { Menu } from "./Menu";
-import { tunings } from "../utils/constants";
+import { tunings, type Tuning } from "../utils/constants";
 import { Tuner } from "./tuner/Tuner";
 
 export const MainScreen: React.FC = () => {
-  const [selectedTuning, setSelectedTuning] = useState<string>(tunings[0].name);
+  const [selectedTuning, setSelectedTuning] = useState<Tuning>(tunings[0]);
 
   return (
     <div className="h-screen overflow-hidden relative">
@@ -13,7 +13,7 @@ export const MainScreen: React.FC = () => {
         selectedTuning={selectedTuning}
         setSelectedTuning={setSelectedTuning}
       />
-      <Tuner />
+      <Tuner selectedTuning={selectedTuning} />
     </div>
   );
 };
