@@ -79,11 +79,7 @@ export const PitchMeter: React.FC<PitchMeterProps> = ({
         return;
       }
 
-      let percent = getTuningInPercent(
-        selectedNoteRef.current,
-        pitchRef.current,
-        2
-      );
+      let percent = getTuningInPercent(selectedNoteRef.current, pitch, 2);
 
       console.log({ percent, pitch });
 
