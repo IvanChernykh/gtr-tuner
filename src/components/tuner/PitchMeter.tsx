@@ -9,35 +9,60 @@ interface PitchMeterProps {
 }
 
 export const PitchMeter: React.FC<PitchMeterProps> = ({ selectedNote }) => {
+  const selectedNoteRef = useRef<string>(selectedNote);
+
   const audioRef = useRef<AudioContext>(null);
   const analyserRef = useRef<AnalyserNode>(null);
   const detectorRef = useRef<PitchDetector<Float32Array>>(null);
   const inputRef = useRef<Float32Array<ArrayBuffer>>(null);
-  const rafRef = useRef<number>(null);
 
   const meterRef = useRef<HTMLDivElement>(null);
-  const pitchRef = useRef<number>(0);
-
-  // const [isListening, setIsListening] = useState(false);
+  const elapsedTime = useRef<number>(null);
 
   const start = () => {
-    // setIsListening(true);
     audioRef.current?.resume();
 
     const loop = () => {
+      if (elapsedTime.current && Date.now() - elapsedTime.current < 25) {
+        requestAnimationFrame(loop);
+        return;
+      }
+
+      elapsedTime.current = Date.now();
+
       analyserRef.current!.getFloatTimeDomainData(inputRef.current!);
       const [p] = detectorRef.current!.findPitch(
         inputRef.current!,
         audioRef.current!.sampleRate
       );
-      pitchRef.current = p;
 
-      rafRef.current = requestAnimationFrame(loop);
+      const pitch = smoothPitch(p);
+
+      if (!pitch) {
+        meterRef.current!.style.left = "50%";
+        requestAnimationFrame(loop);
+        return;
+      }
+
+      let percent = getTuningInPercent(selectedNoteRef.current, pitch, 2);
+
+      if (percent < 0) {
+        percent = 50;
+      }
+
+      if (isTuned(pitch, selectedNoteRef.current)) {
+        meterRef.current!.style.color = colors.success;
+      } else {
+        meterRef.current!.style = "";
+      }
+
+      meterRef.current!.style.left = `${percent}%`;
+
+      requestAnimationFrame(loop);
     };
 
     loop();
   };
-  const selectedNoteRef = useRef<string>(selectedNote);
 
   useEffect(() => {
     const init = async () => {
@@ -61,48 +86,11 @@ export const PitchMeter: React.FC<PitchMeterProps> = ({ selectedNote }) => {
     init().then(() => {
       start();
     });
-
-    function updatePosition() {
-      const pitch = smoothPitch(pitchRef.current);
-
-      if (!pitch) {
-        meterRef.current!.style.left = "50%";
-        requestAnimationFrame(updatePosition);
-        return;
-      }
-
-      let percent = getTuningInPercent(selectedNoteRef.current, pitch, 2);
-
-      if (percent < 0) {
-        percent = 50;
-      }
-
-      if (isTuned(pitch, selectedNoteRef.current)) {
-        meterRef.current!.style.color = colors.success;
-      } else {
-        meterRef.current!.style = "";
-      }
-
-      meterRef.current!.style.left = `${percent}%`;
-      requestAnimationFrame(updatePosition);
-    }
-
-    requestAnimationFrame(updatePosition);
   }, []);
 
   useEffect(() => {
     selectedNoteRef.current = selectedNote;
   }, [selectedNote]);
-
-  // const stop = () => {
-  //   if (rafRef.current) {
-  //     cancelAnimationFrame(rafRef.current);
-  //   }
-  //   audioRef.current?.suspend();
-  //   setPitch(0);
-  //   setClarity(0);
-  //   setIsListening(false);
-  // };
 
   return (
     <div className="absolute left-1/2 -translate-x-1/2 z-20 flex justify-between items-center w-full lg:max-w-200 max-w-120 p-4">
