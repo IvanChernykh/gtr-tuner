@@ -1,10 +1,10 @@
 import React from "react";
 
-export const GuitarSVG: React.FC = () => {
+export const GuitarSVG: React.FC<React.PropsWithChildren> = ({ children }) => {
   return (
     <>
       <svg
-        className="absolute left-1/2 -translate-x-1/2 bottom-0 h-[calc(100vh-64px)]"
+        className="absolute left-1/2 xs:-translate-x-1/2 -translate-x-[calc(49%)] bottom-0 xs:h-[calc(100vh-64px)] h-[calc(100vh-128px)]"
         version="1.0"
         xmlns="http://www.w3.org/2000/svg"
         width="700.000000pt"
@@ -17,6 +17,7 @@ export const GuitarSVG: React.FC = () => {
           height="99%"
           className="fill-base-content absolute translate-x-[4%] translate-y-[1%]"
         />
+
         <g
           transform="translate(0.000000,930.000000) scale(0.100000,-0.100000)"
           className="fill-current text-base-100"
@@ -564,6 +565,7 @@ c-34 3 -95 6 -135 6 l-74 0 0 -65z"
 -24z"
           />
         </g>
+        {children}
       </svg>
     </>
   );

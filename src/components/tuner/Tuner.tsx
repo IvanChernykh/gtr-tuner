@@ -9,6 +9,15 @@ interface TunerProps {
   selectedTuning: Tuning;
 }
 
+const buttonsPos = [
+  [225, 220],
+  [202, 300],
+  [179, 380],
+  [156, 460],
+  [133, 540],
+  [110, 620],
+];
+
 export const Tuner: React.FC<TunerProps> = ({ selectedTuning }) => {
   const [selectedNote, setSelectedNote] = useState("E2");
 
@@ -19,26 +28,31 @@ export const Tuner: React.FC<TunerProps> = ({ selectedTuning }) => {
   return (
     <>
       <PitchMeter selectedNote={selectedNote} />
-      <div className="absolute sm:bottom-16 bottom-12 h-[calc(100vh-128px)] left-1/2 -translate-x-1/2 z-20 flex flex-col justify-center items-start gap-[4%] w-full lg:max-w-200 md:max-w-150 max-w-120 p-4">
-        {selectedTuning.notes
-          .map((note) => (
-            <button
-              key={note}
-              className={`btn md:btn-md btn-sm btn-circle ${
-                selectedNote === note
-                  ? "border-base bg-base-content text-base-100"
-                  : "border-base-content"
-              }`}
-              onClick={() => {
-                setSelectedNote(note);
-              }}
-            >
-              {note}
-            </button>
-          ))
-          .reverse()}
-      </div>
-      <GuitarSVG />
+      <GuitarSVG>
+        {[...selectedTuning.notes].reverse().map((note, i, arr) => {
+          const [x, y] =
+            buttonsPos[
+              (i + buttonsPos.length - arr.length) % buttonsPos.length
+            ]; // make shift if there is less then 6 strings
+
+          return (
+            <foreignObject x={x} y={y} width={60} height={60} key={note}>
+              <button
+                className={`btn md:btn-md xxs:btn-sm btn-circle ${
+                  selectedNote === note
+                    ? "border-base bg-base-content text-base-100"
+                    : "border-base-content"
+                }`}
+                onClick={() => {
+                  setSelectedNote(note);
+                }}
+              >
+                {note}
+              </button>
+            </foreignObject>
+          );
+        })}
+      </GuitarSVG>
     </>
   );
 };

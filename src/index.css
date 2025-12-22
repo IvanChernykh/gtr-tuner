@@ -1,4 +1,8 @@
 @import "tailwindcss";
 @plugin "daisyui" {
-  themes: light --default, dark --prefersdark;
+  themes: lemonade --default, dark --prefersdark;
+}
+@theme {
+  --breakpoint-xs: 30rem;
+  --breakpoint-xxs: 24rem;
 }

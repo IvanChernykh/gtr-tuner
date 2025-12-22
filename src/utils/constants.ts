@@ -5,14 +5,28 @@ export type Tuning = {
 
 export const tunings: Tuning[] = [
   { name: "Standard Tuning", notes: ["E2", "A2", "D3", "G3", "B3", "E4"] },
+  { name: "Half Step Down", notes: ["D#2", "G#2", "C#3", "F#3", "A#3", "D#4"] },
+
+  { name: "Drop C#", notes: ["C#2", "G#2", "C#3", "F#3", "A#3", "D#4"] },
   { name: "Drop D", notes: ["D2", "A2", "D3", "G3", "B3", "E4"] },
+
   { name: "Open D", notes: ["D2", "A2", "D3", "F#3", "A3", "D4"] },
+  { name: "Open E", notes: ["E2", "B2", "E3", "G#3", "B3", "E4"] },
   { name: "Open G", notes: ["D2", "G2", "D3", "G3", "B3", "D4"] },
+  { name: "Open A", notes: ["E2", "A2", "E3", "A3", "C#4", "E4"] },
+
   { name: "DADGAD", notes: ["D2", "A2", "D3", "G3", "A3", "D4"] },
+
   { name: "Bass", notes: ["E1", "A1", "D2", "G2"] },
+  { name: "Bass Drop D", notes: ["D1", "A1", "D2", "G2"] },
+  { name: "Bass 5 String", notes: ["B0", "E1", "A1", "D2", "G2"] },
 ];
 
 export const noteFrequencies: { [key: string]: number } = {
+  A0: 27.5,
+  "A#0": 29.14,
+  B0: 30.87,
+
   C1: 32.7,
   "C#1": 34.65,
   D1: 36.71,
