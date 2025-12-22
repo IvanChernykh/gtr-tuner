@@ -3,7 +3,6 @@ import React from "react";
 export const GuitarSVG: React.FC = () => {
   return (
     <>
-      <div className="absolute bg-base-content left-1/2 -translate-x-1/2 bottom-0 w-90 h-[calc(100vh-64px)]"></div>
       <svg
         className="absolute left-1/2 -translate-x-1/2 bottom-0 h-[calc(100vh-64px)]"
         version="1.0"
@@ -13,6 +12,11 @@ export const GuitarSVG: React.FC = () => {
         viewBox="0 0 700.000000 930.000000"
         preserveAspectRatio="xMidYMid meet"
       >
+        <rect
+          width="90%"
+          height="99%"
+          className="fill-base-content absolute translate-x-[4%] translate-y-[1%]"
+        />
         <g
           transform="translate(0.000000,930.000000) scale(0.100000,-0.100000)"
           className="fill-current text-base-100"

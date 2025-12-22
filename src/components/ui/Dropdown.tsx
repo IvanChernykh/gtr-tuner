@@ -30,13 +30,15 @@ export const Dropdown: React.FC<DropdownProps> = ({
       <div
         tabIndex={0}
         role="button"
-        className={`btn m-1 flex items-center ${className || ""}`}
+        className={`btn sm:btn-md btn-sm m-1 flex items-center ${
+          className || ""
+        }`}
       >
         {children}
       </div>
       <ul
         tabIndex={-1}
-        className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm"
+        className="dropdown-content menu bg-base-100 rounded-box w-52 p-2 shadow-sm z-50"
       >
         {items.map((item) => {
           return (

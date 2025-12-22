@@ -19,12 +19,12 @@ export const Tuner: React.FC<TunerProps> = ({ selectedTuning }) => {
   return (
     <>
       <PitchMeter selectedNote={selectedNote} />
-      <div className="absolute bottom-58 left-1/2 -translate-x-1/2 z-20 flex flex-col justify-start gap-8.5 w-full lg:max-w-200 max-w-120 p-4">
+      <div className="absolute sm:bottom-16 bottom-12 h-[calc(100vh-128px)] left-1/2 -translate-x-1/2 z-20 flex flex-col justify-center items-start gap-[4%] w-full lg:max-w-200 md:max-w-150 max-w-120 p-4">
         {selectedTuning.notes
           .map((note) => (
             <button
               key={note}
-              className={`btn btn-circle ${
+              className={`btn md:btn-md btn-sm btn-circle ${
                 selectedNote === note
                   ? "border-base bg-base-content text-base-100"
                   : "border-base-content"

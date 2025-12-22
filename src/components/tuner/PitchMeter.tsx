@@ -93,11 +93,11 @@ export const PitchMeter: React.FC<PitchMeterProps> = ({ selectedNote }) => {
   }, [selectedNote]);
 
   return (
-    <div className="absolute left-1/2 -translate-x-1/2 z-20 flex justify-between items-center w-full lg:max-w-200 max-w-120 p-4">
-      <span className="xl:text-5xl lg:text-4xl md:text-3xl sm:text-2xl text-xl">
+    <div className="absolute left-1/2 -translate-x-1/2 z-20 flex justify-between items-center w-full lg:max-w-200 md:max-w-150 max-w-120 p-4">
+      <span className="xl:text-5xl lg:text-4xl md:text-3xl sm:text-2xl text-xl w-6">
         &#9837;
       </span>
-      <div className="w-0.5 xl:h-16 lg:h-14 md:h-12 sm:h-10 h-8 bg-error mx-auto" />
+      <div className="w-0.5 xl:h-18 lg:h-16 md:h-14 h-12 bg-error mx-auto" />
       <span className="xl:text-5xl lg:text-4xl md:text-3xl sm:text-2xl text-xl w-6">
         &#9839;
       </span>
