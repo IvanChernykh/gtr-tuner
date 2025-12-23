@@ -75,7 +75,7 @@ export const PitchMeter: React.FC<PitchMeterProps> = ({ selectedNote }) => {
       audio.createMediaStreamSource(stream).connect(analyser);
 
       const detector = PitchDetector.forFloat32Array(analyser.fftSize);
-      detector.minVolumeDecibels = isMobile ? -25 : -20;
+      detector.minVolumeDecibels = isMobile ? -16 : -20; // Todo: fix - works good on desktop but bad on mobile
 
       const input = new Float32Array(detector.inputLength);
 

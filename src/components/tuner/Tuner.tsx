@@ -31,9 +31,10 @@ export const Tuner: React.FC<TunerProps> = ({ selectedTuning }) => {
     setSelectedNote(note);
 
     if (audioRef.current) {
-      audioRef.current.src = `${
-        import.meta.env.BASE_URL
-      }sfx/${encodeURIComponent(note)}.wav`;
+      audioRef.current.src = `${import.meta.env.BASE_URL}sfx/${note.replace(
+        "#",
+        "_sharp_"
+      )}.wav`;
 
       audioRef.current.load();
       audioRef.current.play();
