@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import { PitchMeter } from "./PitchMeter";
 import { GuitarSVG } from "../ui/icons/guitar";
@@ -19,14 +19,30 @@ const buttonsPos = [
 ];
 
 export const Tuner: React.FC<TunerProps> = ({ selectedTuning }) => {
-  const [selectedNote, setSelectedNote] = useState("E2");
+  const [selectedNote, setSelectedNote] = useState<string>("E2");
+
+  const audioRef = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
     setSelectedNote(selectedTuning.notes[0]);
   }, [selectedTuning]);
 
+  const handleBtnClick = (note: string) => {
+    setSelectedNote(note);
+
+    if (audioRef.current) {
+      audioRef.current.src = `${
+        import.meta.env.BASE_URL
+      }sfx/${encodeURIComponent(note)}.wav`;
+
+      audioRef.current.load();
+      audioRef.current.play();
+    }
+  };
+
   return (
     <>
+      <audio ref={audioRef}></audio>
       <PitchMeter selectedNote={selectedNote} />
       <GuitarSVG>
         {[...selectedTuning.notes].reverse().map((note, i, arr) => {
@@ -38,14 +54,12 @@ export const Tuner: React.FC<TunerProps> = ({ selectedTuning }) => {
           return (
             <foreignObject x={x} y={y} width={60} height={60} key={note}>
               <button
-                className={`btn md:btn-md xxs:btn-sm btn-circle ${
+                className={`btn xxs:btn-md btn-sm btn-circle ${
                   selectedNote === note
                     ? "border-base bg-base-content text-base-100"
                     : "border-base-content"
                 }`}
-                onClick={() => {
-                  setSelectedNote(note);
-                }}
+                onClick={() => handleBtnClick(note)}
               >
                 {note}
               </button>

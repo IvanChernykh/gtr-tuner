@@ -2,6 +2,7 @@ import { PitchDetector } from "pitchy";
 import React, { useEffect, useRef } from "react";
 
 import { colors } from "../../utils/colors";
+import { isMobile } from "../../utils/isMobile";
 import { getTuningInPercent, isTuned, smoothPitch } from "../../utils/tuning";
 
 interface PitchMeterProps {
@@ -74,7 +75,8 @@ export const PitchMeter: React.FC<PitchMeterProps> = ({ selectedNote }) => {
       audio.createMediaStreamSource(stream).connect(analyser);
 
       const detector = PitchDetector.forFloat32Array(analyser.fftSize);
-      detector.minVolumeDecibels = -20;
+      detector.minVolumeDecibels = isMobile ? -25 : -20;
+
       const input = new Float32Array(detector.inputLength);
 
       audioRef.current = audio;

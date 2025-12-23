@@ -21,14 +21,6 @@ export const Menu: React.FC<MenuProps> = ({
   return (
     <div className="w-full sm:h-16 h-12 flex items-center justify-between py-2 sm:px-4 px-2 border-b">
       <div className="flex gap-4">
-        {/* <Dropdown
-          className="w-25"
-          items={instruments.map((item) => ({ id: item, component: item }))}
-          onItemClick={handleInstrumentChange}
-        >
-          {selectedInstrument}
-          <CaretDown />
-        </Dropdown> */}
         <Dropdown
           className="sm:w-44 w-40"
           items={tunings.map(({ name }) => ({ id: name, component: name }))}
