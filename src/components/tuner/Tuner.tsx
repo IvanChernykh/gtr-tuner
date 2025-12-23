@@ -18,6 +18,9 @@ const buttonsPos = [
   [110, 620],
 ];
 
+const getNoteSoundPath = (note: string) =>
+  `${import.meta.env.BASE_URL}sfx/${note.replace("#", "_sharp_")}.wav`;
+
 export const Tuner: React.FC<TunerProps> = ({ selectedTuning }) => {
   const [selectedNote, setSelectedNote] = useState<string>("E2");
 
@@ -27,14 +30,19 @@ export const Tuner: React.FC<TunerProps> = ({ selectedTuning }) => {
     setSelectedNote(selectedTuning.notes[0]);
   }, [selectedTuning]);
 
+  useEffect(() => {
+    selectedTuning.notes.forEach((note) => {
+      const url = getNoteSoundPath(note);
+
+      fetch(url, { cache: "force-cache" });
+    });
+  }, [selectedTuning]);
+
   const handleBtnClick = (note: string) => {
     setSelectedNote(note);
 
     if (audioRef.current) {
-      audioRef.current.src = `${import.meta.env.BASE_URL}sfx/${note.replace(
-        "#",
-        "_sharp_"
-      )}.wav`;
+      audioRef.current.src = getNoteSoundPath(note);
 
       audioRef.current.load();
       audioRef.current.play();
