@@ -1,9 +1,10 @@
 import React from "react";
 
-import { Dropdown } from "./ui/Dropdown";
-import { tunings, type Tuning } from "../utils/constants";
-import { DarkModeController } from "./ui/DarkModeController";
-import { CaretDown } from "./ui/icons/Arrows";
+import { DarkModeController } from "./DarkModeController";
+import { renderTuningsList } from "./TuningsList";
+import { tunings, type Tuning } from "../../utils/constants";
+import { Dropdown } from "../ui/Dropdown";
+import { CaretDown } from "../ui/icons/Arrows";
 
 interface MenuProps {
   selectedTuning: Tuning;
@@ -23,8 +24,8 @@ export const Menu: React.FC<MenuProps> = ({
       <div className="flex gap-4">
         <Dropdown
           className="sm:w-44 w-40"
-          items={tunings.map(({ name }) => ({ id: name, component: name }))}
           onItemClick={handleTuningChange}
+          renderItems={renderTuningsList}
         >
           {selectedTuning.name}
           <CaretDown />

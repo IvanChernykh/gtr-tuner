@@ -7,7 +7,8 @@ export interface DropdownItem {
 
 interface DropdownProps extends React.PropsWithChildren {
   onItemClick: (id: string) => void;
-  items: DropdownItem[];
+  renderItems?: (handleItemClick: (id: string) => void) => React.ReactNode;
+  items?: DropdownItem[];
   className?: string;
 }
 
@@ -15,6 +16,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
   children,
   items,
   className,
+  renderItems,
   onItemClick,
 }) => {
   const handleItemClick = (id: string) => {
@@ -40,13 +42,15 @@ export const Dropdown: React.FC<DropdownProps> = ({
         tabIndex={-1}
         className="dropdown-content menu bg-base-100 rounded-box w-52 p-2 shadow-sm z-50"
       >
-        {items.map((item) => {
-          return (
-            <li key={item.id} onClick={() => handleItemClick(item.id)}>
-              <a>{item.component}</a>
-            </li>
-          );
-        })}
+        {renderItems
+          ? renderItems(handleItemClick)
+          : items?.map((item) => {
+              return (
+                <li key={item.id} onClick={() => handleItemClick(item.id)}>
+                  <a>{item.component}</a>
+                </li>
+              );
+            })}
       </ul>
     </div>
   );

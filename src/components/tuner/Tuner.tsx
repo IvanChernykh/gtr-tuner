@@ -61,7 +61,7 @@ export const Tuner: React.FC<TunerProps> = ({ selectedTuning }) => {
             ]; // make shift if there is less then 6 strings
 
           return (
-            <foreignObject x={x} y={y} width={60} height={60} key={note}>
+            <foreignObject x={x} y={y} width={40} height={40} key={note}>
               <button
                 className={`btn xxs:btn-md btn-sm btn-circle ${
                   selectedNote === note

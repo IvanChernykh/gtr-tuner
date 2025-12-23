@@ -2,7 +2,6 @@ import { PitchDetector } from "pitchy";
 import React, { useEffect, useRef } from "react";
 
 import { colors } from "../../utils/colors";
-import { isMobile } from "../../utils/isMobile";
 import { getTuningInPercent, isTuned, smoothPitch } from "../../utils/tuning";
 
 interface PitchMeterProps {
@@ -53,6 +52,7 @@ export const PitchMeter: React.FC<PitchMeterProps> = ({ selectedNote }) => {
 
       if (isTuned(pitch, selectedNoteRef.current)) {
         meterRef.current!.style.color = colors.success;
+        meterRef.current!.style.borderBottom = `1px solid ${colors.success}`;
       } else {
         meterRef.current!.style = "";
       }
@@ -75,7 +75,7 @@ export const PitchMeter: React.FC<PitchMeterProps> = ({ selectedNote }) => {
       audio.createMediaStreamSource(stream).connect(analyser);
 
       const detector = PitchDetector.forFloat32Array(analyser.fftSize);
-      detector.minVolumeDecibels = isMobile ? -16 : -20; // Todo: fix - works good on desktop but bad on mobile
+      detector.minVolumeDecibels = -15;
 
       const input = new Float32Array(detector.inputLength);
 
@@ -105,7 +105,7 @@ export const PitchMeter: React.FC<PitchMeterProps> = ({ selectedNote }) => {
       </span>
       <div
         ref={meterRef}
-        className="absolute left-1/2 -translate-x-1/2 rounded-4xl bg-neutral w-8 h-8 flex items-center justify-center text-neutral-content"
+        className="absolute left-1/2 -translate-x-1/2 rounded-4xl bg-neutral sm:text-sm text-xs font-semibold sm:w-9 sm:h-9 w-8 h-8 flex items-center justify-center text-neutral-content"
       >
         {selectedNote}
       </div>

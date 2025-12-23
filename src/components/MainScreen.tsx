@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Menu } from "./Menu";
+import { Menu } from "./menu/Menu";
 import { tunings, type Tuning } from "../utils/constants";
 import { Tuner } from "./tuner/Tuner";
 
