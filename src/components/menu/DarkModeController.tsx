@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 
+import { localStorageKeys } from "../../utils/localStorage";
+
 export const DarkModeController: React.FC = () => {
   const [isdark, setIsdark] = useState(
-    JSON.parse(localStorage.getItem("isdark") || "false")
+    JSON.parse(localStorage.getItem(localStorageKeys.darkMode) || "false")
   );
 
   useEffect(() => {
-    localStorage.setItem("isdark", JSON.stringify(isdark));
+    localStorage.setItem(localStorageKeys.darkMode, JSON.stringify(isdark));
   }, [isdark]);
 
   return (

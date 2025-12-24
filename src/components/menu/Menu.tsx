@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import { DarkModeController } from "./DarkModeController";
-import { renderTuningsList } from "./TuningsList";
+import { TuningsList } from "./TuningsList";
 import { tunings, type Tuning } from "../../utils/constants";
+import { localStorageKeys } from "../../utils/localStorage";
+import { CustomTuningModal } from "../ui/CustomTuningModal/CustomTuningModal";
 import { Dropdown } from "../ui/Dropdown";
 import { CaretDown } from "../ui/icons/Arrows";
 
@@ -15,8 +17,28 @@ export const Menu: React.FC<MenuProps> = ({
   selectedTuning,
   setSelectedTuning,
 }) => {
+  const [customTuning, setCustomTuning] = useState<Tuning | null>(
+    JSON.parse(localStorage.getItem(localStorageKeys.customTuning) || "null")
+  );
+
+  const modalRef = useRef<HTMLDialogElement | null>(null);
+
+  useEffect(() => {
+    if (customTuning?.id === selectedTuning.id) {
+      setSelectedTuning(customTuning);
+    }
+  }, [customTuning]);
+
   const handleTuningChange = (id: string) => {
-    setSelectedTuning(tunings.filter((item) => item.name === id)[0]);
+    if (id === customTuning?.name) {
+      setSelectedTuning(customTuning);
+    } else {
+      setSelectedTuning(tunings.filter((item) => item.name === id)[0]);
+    }
+  };
+
+  const openTuningModal = () => {
+    modalRef.current?.showModal();
   };
 
   return (
@@ -25,13 +47,27 @@ export const Menu: React.FC<MenuProps> = ({
         <Dropdown
           className="sm:w-44 w-40"
           onItemClick={handleTuningChange}
-          renderItems={renderTuningsList}
+          renderItems={(handleItemClick) => (
+            <TuningsList
+              customTuning={customTuning}
+              handleItemClick={handleItemClick}
+              openModal={openTuningModal}
+            />
+          )}
         >
-          {selectedTuning.name}
-          <CaretDown />
+          <div className="w-full flex items-center justify-between">
+            <div className="truncate">{selectedTuning.name}</div>
+            <CaretDown />
+          </div>
         </Dropdown>
       </div>
       <DarkModeController />
+
+      <CustomTuningModal
+        ref={modalRef}
+        customTuning={customTuning}
+        setCustomTuning={setCustomTuning}
+      />
     </div>
   );
 };

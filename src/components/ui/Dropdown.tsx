@@ -40,7 +40,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
       </div>
       <ul
         tabIndex={-1}
-        className="dropdown-content menu bg-base-100 rounded-box w-52 p-2 shadow-sm z-50"
+        className="dropdown-content menu bg-base-100 rounded-box w-53 p-2 shadow-sm z-50"
       >
         {renderItems
           ? renderItems(handleItemClick)

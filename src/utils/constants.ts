@@ -1,26 +1,79 @@
 export type Tuning = {
+  id: string;
   name: string;
   notes: string[];
 };
 
 export const tunings: Tuning[] = [
-  { name: "Standard Tuning", notes: ["E2", "A2", "D3", "G3", "B3", "E4"] },
-  { name: "Half Step Down", notes: ["D#2", "G#2", "C#3", "F#3", "A#3", "D#4"] },
-  { name: "One Step Down", notes: ["D2", "G2", "C3", "F3", "A3", "D4"] },
+  {
+    id: "standard",
+    name: "Standard Tuning",
+    notes: ["E2", "A2", "D3", "G3", "B3", "E4"],
+  },
+  {
+    id: "half-step-down",
+    name: "Half Step Down",
+    notes: ["D#2", "G#2", "C#3", "F#3", "A#3", "D#4"],
+  },
+  {
+    id: "one-step-down",
+    name: "One Step Down",
+    notes: ["D2", "G2", "C3", "F3", "A3", "D4"],
+  },
 
-  { name: "Drop C#", notes: ["C#2", "G#2", "C#3", "F#3", "A#3", "D#4"] },
-  { name: "Drop D", notes: ["D2", "A2", "D3", "G3", "B3", "E4"] },
+  {
+    id: "drop-c-sharp",
+    name: "Drop C#",
+    notes: ["C#2", "G#2", "C#3", "F#3", "A#3", "D#4"],
+  },
+  {
+    id: "drop-d",
+    name: "Drop D",
+    notes: ["D2", "A2", "D3", "G3", "B3", "E4"],
+  },
 
-  { name: "Open D", notes: ["D2", "A2", "D3", "F#3", "A3", "D4"] },
-  { name: "Open E", notes: ["E2", "B2", "E3", "G#3", "B3", "E4"] },
-  { name: "Open G", notes: ["D2", "G2", "D3", "G3", "B3", "D4"] },
-  { name: "Open A", notes: ["E2", "A2", "E3", "A3", "C#4", "E4"] },
+  {
+    id: "open-d",
+    name: "Open D",
+    notes: ["D2", "A2", "D3", "F#3", "A3", "D4"],
+  },
+  {
+    id: "open-e",
+    name: "Open E",
+    notes: ["E2", "B2", "E3", "G#3", "B3", "E4"],
+  },
+  {
+    id: "open-g",
+    name: "Open G",
+    notes: ["D2", "G2", "D3", "G3", "B3", "D4"],
+  },
+  {
+    id: "open-a",
+    name: "Open A",
+    notes: ["E2", "A2", "E3", "A3", "C#4", "E4"],
+  },
 
-  { name: "DADGAD", notes: ["D2", "A2", "D3", "G3", "A3", "D4"] },
+  {
+    id: "dadgad",
+    name: "DADGAD",
+    notes: ["D2", "A2", "D3", "G3", "A3", "D4"],
+  },
 
-  { name: "Bass", notes: ["E1", "A1", "D2", "G2"] },
-  { name: "Bass Drop D", notes: ["D1", "A1", "D2", "G2"] },
-  { name: "Bass 5 String", notes: ["B0", "E1", "A1", "D2", "G2"] },
+  {
+    id: "bass",
+    name: "Bass",
+    notes: ["E1", "A1", "D2", "G2"],
+  },
+  {
+    id: "bass-drop-d",
+    name: "Bass Drop D",
+    notes: ["D1", "A1", "D2", "G2"],
+  },
+  {
+    id: "bass-5-string",
+    name: "Bass 5 String",
+    notes: ["B0", "E1", "A1", "D2", "G2"],
+  },
 ];
 
 export const noteFrequencies: { [key: string]: number } = {
