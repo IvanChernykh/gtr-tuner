@@ -44,7 +44,6 @@ export const Tuner: React.FC<TunerProps> = ({ selectedTuning }) => {
     if (audioRef.current) {
       audioRef.current.src = getNoteSoundPath(note);
 
-      audioRef.current.load();
       audioRef.current.play();
     }
   };
