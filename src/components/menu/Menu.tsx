@@ -56,7 +56,12 @@ export const Menu: React.FC<MenuProps> = ({
           )}
         >
           <div className="w-full flex items-center justify-between">
-            <div className="truncate">{selectedTuning.name}</div>
+            <div
+              className="truncate"
+              title={selectedTuning.name.length > 18 ? selectedTuning.name : ""}
+            >
+              {selectedTuning.name}
+            </div>
             <CaretDown />
           </div>
         </Dropdown>
