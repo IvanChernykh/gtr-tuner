@@ -25,3 +25,6 @@ export const selectOptions = Object.keys(noteFrequencies).filter(
 
 export const isInputValid = (value: string) =>
   value.length > 0 && tunings.every((t) => t.name !== value);
+
+export const showSelectOptionDivider = (note: string) =>
+  note.toLowerCase().includes("c") && note.length === 2;

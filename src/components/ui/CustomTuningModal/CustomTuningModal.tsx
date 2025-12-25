@@ -6,6 +6,7 @@ import {
   selectNames,
   selectOptions,
 } from "./helpers";
+import { NoteSelectOption } from "./NoteSelectOption";
 import { type Tuning } from "../../../utils/constants";
 import { localStorageKeys } from "../../../utils/localStorage";
 
@@ -114,7 +115,7 @@ export const CustomTuningModal: React.FC<Props> = ({
               >
                 <option disabled>{label}</option>
                 {selectOptions.map((note) => (
-                  <option key={note}>{note}</option>
+                  <NoteSelectOption note={note} />
                 ))}
               </select>
             </fieldset>

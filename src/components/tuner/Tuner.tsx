@@ -21,16 +21,17 @@ const buttonsPos = [
 const getNoteSoundPath = (note: string) =>
   `${import.meta.env.BASE_URL}sfx/${note.replace("#", "_sharp_")}.wav`;
 
+const getBtnCoords = (idx: number, arrLen: number) =>
+  buttonsPos[(idx + buttonsPos.length - arrLen) % buttonsPos.length]; // make shift if there is less then 6 strings
+
 export const Tuner: React.FC<TunerProps> = ({ selectedTuning }) => {
-  const [selectedNote, setSelectedNote] = useState<string>("E2");
+  const [selectedNoteIdx, setSelectedNoteIdx] = useState<number>(0);
 
   const audioRef = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
-    setSelectedNote(selectedTuning.notes[0]);
-  }, [selectedTuning]);
+    setSelectedNoteIdx(selectedTuning.notes.length - 1);
 
-  useEffect(() => {
     selectedTuning.notes.forEach((note) => {
       const url = getNoteSoundPath(note);
 
@@ -38,11 +39,13 @@ export const Tuner: React.FC<TunerProps> = ({ selectedTuning }) => {
     });
   }, [selectedTuning]);
 
-  const handleBtnClick = (note: string) => {
-    setSelectedNote(note);
+  const noteButtons = [...selectedTuning.notes].reverse();
+
+  const handleBtnClick = (noteIdx: number) => {
+    setSelectedNoteIdx(noteIdx);
 
     if (audioRef.current) {
-      audioRef.current.src = getNoteSoundPath(note);
+      audioRef.current.src = getNoteSoundPath(noteButtons[noteIdx]);
 
       audioRef.current.play();
     }
@@ -51,23 +54,26 @@ export const Tuner: React.FC<TunerProps> = ({ selectedTuning }) => {
   return (
     <>
       <audio ref={audioRef}></audio>
-      <PitchMeter selectedNote={selectedNote} />
+      <PitchMeter selectedNote={noteButtons[selectedNoteIdx]} />
       <GuitarSVG>
-        {[...selectedTuning.notes].reverse().map((note, i, arr) => {
-          const [x, y] =
-            buttonsPos[
-              (i + buttonsPos.length - arr.length) % buttonsPos.length
-            ]; // make shift if there is less then 6 strings
+        {noteButtons.map((note, idx, arr) => {
+          const [x, y] = getBtnCoords(idx, arr.length);
 
           return (
-            <foreignObject x={x} y={y} width={40} height={40} key={note}>
+            <foreignObject
+              x={x}
+              y={y}
+              width={40}
+              height={40}
+              key={`note-${idx}`}
+            >
               <button
-                className={`btn xxs:btn-md btn-sm btn-circle ${
-                  selectedNote === note
+                className={`btn xxs:btn-md btn-sm btn-circle transition-none ${
+                  selectedNoteIdx === idx
                     ? "border-base bg-base-content text-base-100"
                     : "border-base-content"
                 }`}
-                onClick={() => handleBtnClick(note)}
+                onClick={() => handleBtnClick(idx)}
               >
                 {note}
               </button>
