@@ -10,7 +10,7 @@ export const buttonsPos = [
 export const getBtnCoords = (idx: number, arrLen: number) =>
   buttonsPos[(idx + buttonsPos.length - arrLen) % buttonsPos.length];
 
-const getNoteSoundPath = (note: string) =>
+export const getNoteSoundPath = (note: string) =>
   `${import.meta.env.BASE_URL}sfx/${note.replace("#", "_sharp_")}.wav`;
 
 export const preloadAudio = (

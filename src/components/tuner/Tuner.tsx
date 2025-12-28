@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 
-import { getBtnCoords, preloadAudio } from "./helpers";
+import { getBtnCoords, getNoteSoundPath, preloadAudio } from "./helpers";
 import { PitchMeter } from "./PitchMeter";
 import { GuitarSVG } from "../ui/icons/guitar";
 
@@ -31,11 +31,13 @@ export const Tuner: React.FC<TunerProps> = ({ selectedTuning }) => {
     const audio = audioRefs.current[idx];
 
     if (!audio) {
-      return;
+      const newAudio = new Audio(getNoteSoundPath(noteButtons[idx]));
+      newAudio.preload = "auto";
+      audioRefs.current[idx] = newAudio;
+    } else {
+      audio.currentTime = 0;
+      audio.play();
     }
-
-    audio.currentTime = 0;
-    audio.play();
   };
 
   return (
@@ -47,7 +49,13 @@ export const Tuner: React.FC<TunerProps> = ({ selectedTuning }) => {
           const [x, y] = getBtnCoords(idx, arr.length);
 
           return (
-            <foreignObject key={note} x={x} y={y} width={40} height={40}>
+            <foreignObject
+              key={`${note}-${idx}`}
+              x={x}
+              y={y}
+              width={40}
+              height={40}
+            >
               <button
                 className={`btn xxs:btn-md btn-sm btn-circle transition-none ${
                   selectedNoteIdx === idx
