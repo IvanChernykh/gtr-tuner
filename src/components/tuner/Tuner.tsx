@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 
+import { getBtnCoords, preloadAudio } from "./helpers";
 import { PitchMeter } from "./PitchMeter";
 import { GuitarSVG } from "../ui/icons/guitar";
 
@@ -9,64 +10,44 @@ interface TunerProps {
   selectedTuning: Tuning;
 }
 
-const buttonsPos = [
-  [225, 220],
-  [202, 300],
-  [179, 380],
-  [156, 460],
-  [133, 540],
-  [110, 620],
-];
-
-const getNoteSoundPath = (note: string) =>
-  `${import.meta.env.BASE_URL}sfx/${note.replace("#", "_sharp_")}.wav`;
-
-const getBtnCoords = (idx: number, arrLen: number) =>
-  buttonsPos[(idx + buttonsPos.length - arrLen) % buttonsPos.length]; // make shift if there is less then 6 strings
-
 export const Tuner: React.FC<TunerProps> = ({ selectedTuning }) => {
-  const [selectedNoteIdx, setSelectedNoteIdx] = useState<number>(0);
+  const [selectedNoteIdx, setSelectedNoteIdx] = useState(0);
 
-  const audioRef = useRef<HTMLAudioElement>(null);
+  const audioRefs = useRef<HTMLAudioElement[]>([]);
+
+  const noteButtons = [...selectedTuning.notes].reverse();
 
   useEffect(() => {
     setSelectedNoteIdx(selectedTuning.notes.length - 1);
 
-    selectedTuning.notes.forEach((note) => {
-      const url = getNoteSoundPath(note);
-
-      fetch(url, { cache: "force-cache" });
+    noteButtons.forEach((note, idx) => {
+      preloadAudio(audioRefs, note, idx);
     });
   }, [selectedTuning]);
 
-  const noteButtons = [...selectedTuning.notes].reverse();
+  const handleBtnClick = (idx: number) => {
+    setSelectedNoteIdx(idx);
 
-  const handleBtnClick = (noteIdx: number) => {
-    setSelectedNoteIdx(noteIdx);
+    const audio = audioRefs.current[idx];
 
-    if (audioRef.current) {
-      audioRef.current.src = getNoteSoundPath(noteButtons[noteIdx]);
-
-      audioRef.current.play();
+    if (!audio) {
+      return;
     }
+
+    audio.currentTime = 0;
+    audio.play();
   };
 
   return (
     <>
-      <audio ref={audioRef}></audio>
       <PitchMeter selectedNote={noteButtons[selectedNoteIdx]} />
+
       <GuitarSVG>
         {noteButtons.map((note, idx, arr) => {
           const [x, y] = getBtnCoords(idx, arr.length);
 
           return (
-            <foreignObject
-              x={x}
-              y={y}
-              width={40}
-              height={40}
-              key={`note-${idx}`}
-            >
+            <foreignObject key={note} x={x} y={y} width={40} height={40}>
               <button
                 className={`btn xxs:btn-md btn-sm btn-circle transition-none ${
                   selectedNoteIdx === idx

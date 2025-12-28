@@ -115,7 +115,7 @@ export const CustomTuningModal: React.FC<Props> = ({
               >
                 <option disabled>{label}</option>
                 {selectOptions.map((note) => (
-                  <NoteSelectOption note={note} />
+                  <NoteSelectOption key={note} note={note} />
                 ))}
               </select>
             </fieldset>
