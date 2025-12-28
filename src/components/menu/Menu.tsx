@@ -49,6 +49,7 @@ export const Menu: React.FC<MenuProps> = ({
           onItemClick={handleTuningChange}
           renderItems={(handleItemClick) => (
             <TuningsList
+              selectedTuning={selectedTuning}
               customTuning={customTuning}
               handleItemClick={handleItemClick}
               openModal={openTuningModal}

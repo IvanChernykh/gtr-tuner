@@ -3,12 +3,17 @@ import { EditIcon } from "../ui/icons/EditIcon";
 
 interface TuningsListProps {
   customTuning: Tuning | null;
+  selectedTuning: Tuning;
   openModal: () => void;
   handleItemClick: (id: string) => void;
 }
 
+const getActiveBtnClassName = (selected: string, current: string): string =>
+  selected === current ? "bg-base-200 rounded-md" : "";
+
 export const TuningsList: React.FC<TuningsListProps> = ({
   customTuning,
+  selectedTuning,
   openModal,
   handleItemClick,
 }) => {
@@ -23,18 +28,26 @@ export const TuningsList: React.FC<TuningsListProps> = ({
 
   return (
     <>
-      {gtrTunings?.map((item) => {
+      {gtrTunings?.map(({ id, name }) => {
         return (
-          <li key={item.id} onClick={() => handleItemClick(item.name)}>
-            <a>{item.name}</a>
+          <li
+            key={id}
+            onClick={() => handleItemClick(name)}
+            className={getActiveBtnClassName(selectedTuning.name, name)}
+          >
+            <a>{name}</a>
           </li>
         );
       })}
       <li className="border-b"></li>
-      {bassTunings?.map((item) => {
+      {bassTunings?.map(({ id, name }) => {
         return (
-          <li key={item.id} onClick={() => handleItemClick(item.name)}>
-            <a>{item.name}</a>
+          <li
+            key={id}
+            onClick={() => handleItemClick(name)}
+            className={getActiveBtnClassName(selectedTuning.name, name)}
+          >
+            <a>{name}</a>
           </li>
         );
       })}
@@ -42,7 +55,10 @@ export const TuningsList: React.FC<TuningsListProps> = ({
       {customTuning ? (
         <li className="flex justify-between items-center flex-row">
           <a
-            className="w-38 block truncate pt-2.5"
+            className={`w-38 block truncate pt-2.5 ${getActiveBtnClassName(
+              selectedTuning.name,
+              customTuning.name
+            )}`}
             onClick={() => handleItemClick(customTuning.name)}
           >
             {customTuning.name}
